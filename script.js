@@ -3,6 +3,7 @@
 // 2. Player places a bet, it must be higher than 0.
 // 3. Player chooses a card from the cards section.
 // 4. Player pressed the "Start" button, and will only proceed when a proper bet is inputted and a card is chosen.
+// 5. if the start button is pressed without proper bet input AND a card is not chosen, send alert(). Else; proceed to next step.
 // 5. System Randomly Generates the 26 card positions, all both 26 red and black cards of all suites. No duplicates, all cards appear only once.
 // 6. Player throws ball
 // 7. Determine the card on which the ball lands (Player thorws ball Gobble-de-gook what-cha-ma-call-it)
@@ -16,7 +17,7 @@
 /*
     DEBUGGING & TESTING
     shuffleBtn is pressed
-    card position
+    System Randomly Generates the 26 card positions, all both 26 red and black cards of all suites. No duplicates, all cards appear only once.
 */
 const cards = document.getElementsByClassName("cards");
 const betInput = document.getElementById("betinput");
@@ -38,7 +39,6 @@ startBtn.addEventListener("click", () => {
 });
 
 shuffleBtn.addEventListener("click", () => {
-    // cards.inner.HTML += `<div class="card ${randColor} ${randSuite}">${randValue}</div>`; Use either of these
-    // document.createElement("div");.classList.add(randColor, randSuite, 'randValue'); Use either of these
-    }
-})
+// cards.inner.HTML += `<div class="card ${randColor} ${randSuite}">${randValue}</div>`; Use either of these
+// document.createElement("div");.classList.add(randColor, randSuite, 'randValue'); Use either of these
+});
