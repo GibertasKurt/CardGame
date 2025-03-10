@@ -29,8 +29,13 @@ const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'
 const deck = [];
 
 startBtn.addEventListener("click", () => {
-    betAmount.innerText = betInput.value
-})
+    const bet = parseFloat(betInput.value);
+    if (bet > 0) {
+        betAmount.innerText = bet;
+    } else {
+        alert("Bet must be higher than 0!");
+    }
+});
 
 shuffleBtn.addEventListener("click", () => {
     // cards.inner.HTML += `<div class="card ${randColor} ${randSuite}">${randValue}</div>`; Use either of these
