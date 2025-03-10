@@ -1,0 +1,81 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #35654d;
+    color: white;
+    text-align: center;
+}
+.menu {
+    border: solid 3px #913f00;
+    background-color: #913f00;
+    background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png");
+    display: inline-grid;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+    margin: 30% 25px;
+    border-radius: 15px;
+    float: left;
+}
+.menu input {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 15px;
+    border: solid 3px #913f00;
+    /* color: white; */
+    font-size: 14px;
+    text-align: center;
+}
+.menu p {
+    font-size: 20px;
+    margin: 5px;
+}
+button {
+    background: linear-gradient(to bottom, #b14d00, #913f00);
+    color: white;
+    border: solid 3px #913f00;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+.card { /* Cards Styling Beyond This Point */
+    width: 60px;
+    height: 90px;
+    border-radius: 10px;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    position: relative;
+    /* background-color: #e74c3c; */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+.card:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: -1;
+}
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.red {
+    background-color: #e74c3c;
+    color: white;
+}
+.white {
+    background-color: #fff;
+    color: black;
+}
+.spades::after{ content:"\2660" }
+.hearts::after{ content:"\2665" }
+.diamonds::after{ content:"\2666" }
+.clubs::after{ content:"\2663" }
