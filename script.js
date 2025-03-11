@@ -24,9 +24,8 @@ const betInput = document.getElementById("betinput");
 const betAmount = document.getElementById("betamount");
 const startBtn = document.getElementById("start");
 const shuffleBtn = document.getElementById("shuffle");
-const cardBtn = document.querySelector(".card");
 let cardSelected = false;
-
+let gameStarted = false;
 const suites = ['hearts', 'diamonds', 'clubs', 'spades'];
 const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 const deck = [];
@@ -39,7 +38,7 @@ const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A 
         const orderValue = i % 13;
         cards.innerHTML += `<div class="card ${orderColor} ${suites[orderSuite]}">${values[orderValue]}</div>`;
     }
-}
+};
 orderedGen();
 const randGen = () => { // GAME STARTS, ALL CARD POSITIONS ARE JUMBLED, GOOD LUCK OUT THERE SOLDIER
     cards.innerHTML = ``;
@@ -49,19 +48,13 @@ const randGen = () => { // GAME STARTS, ALL CARD POSITIONS ARE JUMBLED, GOOD LUC
         const randValue = Math.floor(Math.random() * values.length);
         cards.innerHTML += `<div class="card ${randColor} ${suites[randSuite]}">${values[randValue]}</div>`;
     }
-}
-
-/* cardBtn.addEventListener("click", () => {
-    
-}); */
+};
 
 startBtn.addEventListener("click", () => {
     const bet = parseFloat(betInput.value);
-    if (bet > 0) {
+    if (bet > 0 && cardSelected) {
         betAmount.innerText = bet;
-    // } else if (cardSelected) {
         randGen();
-    } else {
-        alert("Bet must be higher than 0!");
-    }
+        gameStarted = true;
+    } else { alert("Bet must be higher than 0 and a card must be selected!"); }
 });
