@@ -19,26 +19,49 @@
     shuffleBtn is pressed
     System Randomly Generates the 26 card positions, all both 26 red and black cards of all suites. No duplicates, all cards appear only once.
 */
-const cards = document.getElementsByClassName("cards");
+const cards = document.getElementById("cards");
 const betInput = document.getElementById("betinput");
 const betAmount = document.getElementById("betamount");
 const startBtn = document.getElementById("start");
 const shuffleBtn = document.getElementById("shuffle");
+const cardBtn = document.querySelector(".card");
+let cardSelected = false;
 
 const suites = ['hearts', 'diamonds', 'clubs', 'spades'];
 const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 const deck = [];
 
+const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A CARD FROM HERE
+    cards.innerHTML = ``;
+    for(let i = 0;i < values.length*2;i++) {
+        const orderColor = i > 12 ? 'white' : 'red';
+        const orderSuite = i % suites.length;
+        const orderValue = i % 13;
+        cards.innerHTML += `<div class="card ${orderColor} ${suites[orderSuite]}">${values[orderValue]}</div>`;
+    }
+}
+orderedGen();
+const randGen = () => { // GAME STARTS, ALL CARD POSITIONS ARE JUMBLED, GOOD LUCK OUT THERE SOLDIER
+    cards.innerHTML = ``;
+    for(let i = 0;i < values.length*2;i++) {
+        const randColor = Math.random() < 0.5 ? 'red' : 'white';
+        const randSuite = Math.floor(Math.random() * suites.length);
+        const randValue = Math.floor(Math.random() * values.length);
+        cards.innerHTML += `<div class="card ${randColor} ${suites[randSuite]}">${values[randValue]}</div>`;
+    }
+}
+
+/* cardBtn.addEventListener("click", () => {
+    
+}); */
+
 startBtn.addEventListener("click", () => {
     const bet = parseFloat(betInput.value);
     if (bet > 0) {
         betAmount.innerText = bet;
+    // } else if (cardSelected) {
+        randGen();
     } else {
         alert("Bet must be higher than 0!");
     }
-});
-
-shuffleBtn.addEventListener("click", () => {
-// cards.inner.HTML += `<div class="card ${randColor} ${randSuite}">${randValue}</div>`; Use either of these
-// document.createElement("div");.classList.add(randColor, randSuite, 'randValue'); Use either of these
 });
