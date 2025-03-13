@@ -66,7 +66,3 @@ button {
     background-color: #fff;
     color: black;
 }
-.spades::after{ content:"\2660" }
-.hearts::after{ content:"\2665" }
-.diamonds::after{ content:"\2666" }
-.clubs::after{ content:"\2663" }

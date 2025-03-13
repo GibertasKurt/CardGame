@@ -28,7 +28,7 @@ const shuffleBtn = document.getElementById("shuffle");
 
 let cardSelected = false;
 let gameStarted = false;
-const suites = ['hearts', 'diamonds', 'clubs', 'spades'];
+const suites = ['&#9824;', '&#9827;', '&#9829;', '&#9830;'];
 const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 const deck = [];
 
@@ -38,7 +38,7 @@ const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A 
         const orderColor = i > 12 ? 'white' : 'red';
         const orderSuite = i % suites.length;
         const orderValue = i % 13;
-        cards.innerHTML += `<div class="card ${orderColor} ${suites[orderSuite]}">${values[orderValue]}</div>`;
+        cards.innerHTML += `<div class="card ${orderColor}">${values[orderValue]}${suites[orderSuite]}</div>`;
     }
 };
 orderedGen();
@@ -49,7 +49,7 @@ const randGen = () => { // GAME STARTS, ALL CARD POSITIONS ARE JUMBLED, GOOD LUC
         const randColor = Math.random() < 0.5 ? 'red' : 'white';
         const randSuite = Math.floor(Math.random() * suites.length);
         const randValue = Math.floor(Math.random() * values.length);
-        cards.innerHTML += `<div class="card ${randColor} ${suites[randSuite]}">${values[randValue]}</div>`;
+        cards.innerHTML += `<div class="card ${randColor}">${values[randValue]}${suites[randSuite]}</div>`;
     }
 };
 
