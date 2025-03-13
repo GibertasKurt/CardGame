@@ -43,10 +43,14 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 38px;
+    font-size: 46px;
     position: relative;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     cursor: pointer;
+}
+.card:hover {
+    box-shadow: 0 0 30px black;
+    transform: scale(1.25);
 }
 #cards {
     display: flex;

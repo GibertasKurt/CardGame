@@ -1,6 +1,6 @@
 // Pseudocode for the Card-Based Ball Toss Game
 // 1. Initialize game, the cards section generates all 26 cards in sorted positions.
-// 2. Player places a bet, it must be higher than 0.
+// 2. Player places a bet, it must be higher than 0, (2-10, A, J, Q, K).
 // 3. Player chooses a card from the cards section.
 // 4. Player pressed the "Start" button, and will only proceed when a proper bet is inputted and a card is chosen.
 // 5. if the start button is pressed without proper bet input AND a card is not chosen, send alert(). Else; proceed to next step.
@@ -21,9 +21,11 @@
 */
 const cards = document.getElementById("cards");
 const betInput = document.getElementById("betinput");
+const betCard = document.getElementById("betcard");
 const betAmount = document.getElementById("betamount");
 const startBtn = document.getElementById("start");
 const shuffleBtn = document.getElementById("shuffle");
+
 let cardSelected = false;
 let gameStarted = false;
 const suites = ['hearts', 'diamonds', 'clubs', 'spades'];
@@ -40,6 +42,7 @@ const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A 
     }
 };
 orderedGen();
+
 const randGen = () => { // GAME STARTS, ALL CARD POSITIONS ARE JUMBLED, GOOD LUCK OUT THERE SOLDIER
     cards.innerHTML = ``;
     for(let i = 0;i < values.length*2;i++) {
@@ -50,11 +53,20 @@ const randGen = () => { // GAME STARTS, ALL CARD POSITIONS ARE JUMBLED, GOOD LUC
     }
 };
 
+//A IS CARD IS CLICKED, IT IS RECORDED IN THE SYSTEM
+cards.addEventListener("click", () => {
+    if (event.target.classList.contains("card")){
+        cardSelected = event.target.innerText;
+        betCard.innerText = `${cardSelected}`;
+    }
+});
+
+
 startBtn.addEventListener("click", () => {
     const bet = parseFloat(betInput.value);
-    if (bet > 0 && cardSelected) {
+    if (bet > 0 && cardSelected && values.includes(cardSelected)) {
         betAmount.innerText = bet;
         randGen();
         gameStarted = true;
-    } else { alert("Bet must be higher than 0 and a card must be selected!"); }
+    } else { alert("Bet must be higher than 0 and a valid card must be selected!"); }
 });
