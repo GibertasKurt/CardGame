@@ -25,7 +25,6 @@ const betCard = document.getElementById("betcard");
 const betAmount = document.getElementById("betamount");
 const startBtn = document.getElementById("start");
 const shuffleBtn = document.getElementById("shuffle");
-
 let cardSelected = false;
 let gameStarted = false;
 const suites = ['&#9824;', '&#9827;', '&#9829;', '&#9830;'];
@@ -56,15 +55,16 @@ const randGen = () => { // GAME STARTS, ALL CARD POSITIONS ARE JUMBLED, GOOD LUC
 //A IS CARD IS CLICKED, IT IS RECORDED IN THE SYSTEM
 cards.addEventListener("click", () => {
     if (event.target.classList.contains("card")){
-        cardSelected = event.target.innerText;
-        betCard.innerText = `${cardSelected}`;
+        cardSelected = true;
+        const selectedCard = event.target.innerText;
+        betCard.innerText = `${selectedCard}`;
     }
 });
 
 
 startBtn.addEventListener("click", () => {
     const bet = parseFloat(betInput.value);
-    if (bet > 0 && cardSelected && values.includes(cardSelected)) {
+    if (bet > 0 && cardSelected) {
         betAmount.innerText = bet;
         randGen();
         gameStarted = true;
