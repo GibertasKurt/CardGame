@@ -14,11 +14,6 @@
     8.2. IF ANY property matches the chosen card
         10. Player wins
 */
-/*
-    DEBUGGING & TESTING
-    shuffleBtn is pressed
-    System Randomly Generates the 26 card positions, all both 26 red and black cards of all suites. No duplicates, all cards appear only once.
-*/
 const cards = document.getElementById("cards");
 const betInput = document.getElementById("betinput");
 const betCard = document.getElementById("betcard");
@@ -33,7 +28,7 @@ const deck = [];
 
 const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A CARD FROM HERE
     cards.innerHTML = ``;
-    for(let i = 0;i < values.length*2;i++) {
+    for(let i = 0;i < values.length*2-1;i++) {
         const orderColor = i > 12 ? 'white' : 'red';
         const orderSuite = i % suites.length;
         const orderValue = i % 13;
@@ -41,32 +36,18 @@ const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A 
     }
 };
 orderedGen();
+startBtn.addEventListener("click", () => {
+    const bet = parseFloat(betInput.value);
+    if (bet > 0 && cardSelected) {
+        betAmount.innerText = bet;
+        gameStarted = true;
+    } else { alert("Bet must be higher than 0 and a valid card must be selected!"); }
+});
 
-const randGen = () => { // GAME STARTS, ALL CARD POSITIONS ARE JUMBLED, GOOD LUCK OUT THERE SOLDIER
-    cards.innerHTML = ``;
-    for(let i = 0;i < values.length*2;i++) {
-        const randColor = Math.random() < 0.5 ? 'red' : 'white';
-        const randSuite = Math.floor(Math.random() * suites.length);
-        const randValue = Math.floor(Math.random() * values.length);
-        cards.innerHTML += `<div class="card ${randColor}">${values[randValue]}${suites[randSuite]}</div>`;
-    }
-};
-
-//A IS CARD IS CLICKED, IT IS RECORDED IN THE SYSTEM
-cards.addEventListener("click", () => {
+cards.addEventListener("click", () => { // A IS CARD IS CLICKED, IT IS RECORDED IN THE SYSTEM
     if (event.target.classList.contains("card")){
         cardSelected = true;
         const selectedCard = event.target.innerText;
         betCard.innerText = `${selectedCard}`;
     }
-});
-
-
-startBtn.addEventListener("click", () => {
-    const bet = parseFloat(betInput.value);
-    if (bet > 0 && cardSelected) {
-        betAmount.innerText = bet;
-        randGen();
-        gameStarted = true;
-    } else { alert("Bet must be higher than 0 and a valid card must be selected!"); }
 });
