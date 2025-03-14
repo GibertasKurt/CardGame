@@ -22,11 +22,10 @@ const startBtn = document.getElementById("start");
 const shuffleBtn = document.getElementById("shuffle");
 let cardSelected = false;
 let gameStarted = false;
+let selectedCard;
 const suites = ['&#9824;', '&#9827;', '&#9829;', '&#9830;'];
 const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-const deck = [
-    {}
-];
+const deck = [];
 const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A CARD FROM HERE
     cards.innerHTML = ``;
     for(let i = 0;i < values.length*2;i++) {
@@ -38,8 +37,15 @@ const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A 
             suite: suites[orderSuite],
             value: values[orderValue]
         });
-        cards.innerHTML += `<div class="card ${orderColor}">${values[orderValue]}${suites[orderSuite]}</div>`;
+        // cards.innerHTML += `<div class="card ${orderColor}">${values[orderValue]}${suites[orderSuite]}</div>`;
     }
+    if (deck.length > 0) {
+        const randomIndex = Math.floor(Math.random() * deck.length);
+        deck.splice(randomIndex, 1);
+    }
+    deck.forEach(card => {
+        cards.innerHTML += `<div class="card ${card.color}">${card.value}${card.suite}</div>`;
+    });
 };
 orderedGen();
 const randBall = () => {
@@ -51,17 +57,17 @@ const randBall = () => {
         '&#9830;': '♦'
     };
     const suiteSymbol = suiteSymbols[deck[rand].suite];
-    alert(`The ball has dropped and landed on a: ${deck[rand].value}${suiteSymbol}`);
+    // alert(`The ball has dropped and landed on a: ${deck[rand].value}${suiteSymbol}`);
     return deck[rand];
 };
-// const didPlayerWin = () => {
-//     const ball = randBall();
-//     if (ball.value === betCard.innerText && ball.suite === betCard.innerText) {
-//         alert("Player wins!");
-//     } else {
-//         alert("Player loses!");
-//     }
-// }
+const didPlayerWin = () => {
+    const ball = randBall();
+    if (ball.value === betCard.innerText && ball.suite === betCard.innerText) {
+        alert("Player wins!");
+    } else {
+        alert("Player loses!");
+    }
+}
 startBtn.addEventListener("click", () => { // LE STARTO BUTONNES, HOLA CHIKO, LET'S GO!
     const bet = parseFloat(betInput.value);
     if (bet > 0) {
@@ -87,7 +93,8 @@ betInput.addEventListener("keydown", (e) => {
 cards.addEventListener("click", () => { // A IS CARD IS CLICKED, IT IS RECORDED IN THE SYSTEM
     if (event.target.classList.contains("card")){
         cardSelected = true;
-        const selectedCard = event.target.innerText;
+        selectedCard = event.target.innerText;
         betCard.innerText = `${selectedCard}`;
+        selectedCard = deck.find(card => `${card.value}${card.suite}` === cardText);
     }
 });
