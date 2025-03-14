@@ -60,14 +60,14 @@ const randBall = () => {
     // alert(`The ball has dropped and landed on a: ${deck[rand].value}${suiteSymbol}`);
     return deck[rand];
 };
-const didPlayerWin = () => {
-    const ball = randBall();
-    if (ball.value === betCard.innerText && ball.suite === betCard.innerText) {
-        alert("Player wins!");
-    } else {
-        alert("Player loses!");
-    }
-}
+// const didPlayerWin = () => {
+//     const ball = randBall();
+//     if (ball.value === betCard.innerText && ball.suite === betCard.innerText) {
+//         alert("Player wins!");
+//     } else {
+//         alert("Player loses!");
+//     }
+// }
 startBtn.addEventListener("click", () => { // LE STARTO BUTONNES, HOLA CHIKO, LET'S GO!
     const bet = parseFloat(betInput.value);
     if (bet > 0) {
