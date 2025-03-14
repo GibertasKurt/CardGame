@@ -18,6 +18,7 @@ const cards = document.getElementById("cards");
 const betInput = document.getElementById("betinput");
 const betCard = document.getElementById("betcard");
 const betAmount = document.getElementById("betamount");
+let balanceAmount = document.getElementById("balanceamount");
 const startBtn = document.getElementById("start");
 const shuffleBtn = document.getElementById("shuffle");
 let cardSelected = false;
