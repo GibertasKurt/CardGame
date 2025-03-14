@@ -24,7 +24,9 @@ let cardSelected = false;
 let gameStarted = false;
 const suites = ['&#9824;', '&#9827;', '&#9829;', '&#9830;'];
 const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-const deck = [];
+const deck = [
+    {}
+];
 
 const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A CARD FROM HERE
     cards.innerHTML = ``;
@@ -32,15 +34,34 @@ const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A 
         const orderColor = i > 12 ? 'white' : 'red';
         const orderSuite = i % suites.length;
         const orderValue = i % 13;
+        deck.push({
+            color: orderColor,
+            suite: suites[orderSuite],
+            value: values[orderValue]
+        });
         cards.innerHTML += `<div class="card ${orderColor}">${values[orderValue]}${suites[orderSuite]}</div>`;
     }
 };
 orderedGen();
+const randBall = () => {
+    const rand = Math.floor(Math.random() * deck.length);
+    // alert(deck[rand].value, deck[rand].suite);
+    const suiteSymbols = {
+        '&#9824;': '♠',
+        '&#9827;': '♣',
+        '&#9829;': '♥',
+        '&#9830;': '♦'
+    };
+    const suiteSymbol = suiteSymbols[deck[rand].suite];
+    alert(`The ball has dropped and landed on a: ${deck[rand].value}${suiteSymbol}`);
+    // return deck[rand];
+};
 startBtn.addEventListener("click", () => {
     const bet = parseFloat(betInput.value);
     if (bet > 0 && cardSelected) {
         betAmount.innerText = bet;
         gameStarted = true;
+        randBall();
     } else { alert("Bet must be higher than 0 and a valid card must be selected!"); }
 });
 

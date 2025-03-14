@@ -13,6 +13,9 @@ body {
     align-items: center;
     padding: 10px;
     border-radius: 15px;
+    position: fixed;
+    top: 70%;
+    left: 10%;
 }
 .menu input {
     padding: 10px;
@@ -39,11 +42,11 @@ button {
     width: 90px;
     height: 120px;
     border-radius: 10px;
-    margin: 15px;
+    /* margin: 15px; */
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 46px;
+    font-size: 55px;
     position: relative;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     cursor: pointer;
@@ -53,10 +56,12 @@ button {
     transform: scale(1.25);
 }
 #cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 125px;
+    margin: 135px;
+    display: grid;
+    gap: 45px 50px;
+    grid-template-columns: repeat(auto-fill, 70px);
+    /* flex-wrap: wrap; */
+    /* justify-content: center; */
 }
 .red {
     background-color: #e74c3c;
