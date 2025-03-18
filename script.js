@@ -39,6 +39,8 @@ const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A 
             value: values[orderValue]
         });
         // cards.innerHTML += `<div class="card ${orderColor}">${values[orderValue]}${suites[orderSuite]}</div>`; // DEBUGGING
+        // <select name="betcard" id="betcard"></select>
+        // betcard.innerHTML = `<option value="${deck[i]}">${orderValue}${orderSuite}</option>`;
     }
     if (deck.length > 0) {
         const randomIndex = Math.floor(Math.random() * deck.length);
