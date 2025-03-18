@@ -60,10 +60,10 @@ const didPlayerWin = () => {
     const selectedCardValue = selectedCard.slice(0, -1);
     const selectedCardSuite = selectedCard.slice(-1);
     if (ball.value === selectedCardValue || ball.suite === selectedCardSuite) {
-        alert(`The system rolled  ${ball.value}${ball.suite}!, You won!`);
+        alert(`The system rolled a ${ball.value}${ball.suite}!, You won!`);
         balanceAmount.innerText = parseFloat(balanceAmount.innerText) + parseFloat(betInput.value);
     } else {
-        alert(`The system rolled  ${ball.value}${ball.suite}!, You lost!`);
+        alert(`The system rolled a ${ball.value}${ball.suite}!, You lost!`);
         balanceAmount.innerText = parseFloat(balanceAmount.innerText) - parseFloat(betInput.value);
     }
 }
