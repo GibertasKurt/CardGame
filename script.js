@@ -12,7 +12,7 @@
     8.1. IF NO property matches the chosen card
         9. Player loses
     8.2. IF ANY property matches the chosen card
-        10. Player wins
+       9. Player wins
 */
 const cards = document.getElementById("cards");
 const betInput = document.getElementById("betinput");
@@ -24,9 +24,11 @@ const shuffleBtn = document.getElementById("shuffle");
 let cardSelected = false;
 let gameStarted = false;
 let selectedCard;
-const suites = ['&#9824;', '&#9827;', '&#9829;', '&#9830;'];
+// const suites = ['&#9824;', '&#9827;', '&#9829;', '&#9830;'];
+const suites = ['♠', '♣', '♥', '♦'];
 const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-const deck = [];
+const deck = []; // object array
+balanceAmount.innerText = "0"
 const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A CARD FROM HERE
     cards.innerHTML = ``;
     for(let i = 0;i < values.length*2;i++) {
@@ -39,45 +41,39 @@ const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A 
             value: values[orderValue]
         });
         // cards.innerHTML += `<div class="card ${orderColor}">${values[orderValue]}${suites[orderSuite]}</div>`; // DEBUGGING
-        // <select name="betcard" id="betcard"></select>
-        // betcard.innerHTML = `<option value="${deck[i]}">${orderValue}${orderSuite}</option>`;
     }
-    if (deck.length > 0) {
+    if (deck.length > 0) { // Remove 1 card
         const randomIndex = Math.floor(Math.random() * deck.length);
         deck.splice(randomIndex, 1);
     }
-    deck.forEach(card => {
+    deck.forEach(card => { // Display all cards
         cards.innerHTML += `<div class="card ${card.color}">${card.value}${card.suite}</div>`;
     });
 };
 orderedGen();
 const randBall = () => {
     const rand = Math.floor(Math.random() * deck.length);
-    const suiteSymbols = {
-        '&#9824;': '♠',
-        '&#9827;': '♣',
-        '&#9829;': '♥',
-        '&#9830;': '♦'
-    };
-    const suiteSymbol = suiteSymbols[deck[rand].suite];
-    // alert(`The ball has dropped and landed on a: ${deck[rand].value}${suiteSymbol}`); // DEBUGGING
     return deck[rand];
 };
-// const didPlayerWin = () => {
-//     const ball = randBall();
-//     if (ball.value === betCard.innerText && ball.suite === betCard.innerText) {
-//         alert("Player wins!");
-//     } else {
-//         alert("Player loses!");
-//     }
-// }
+const didPlayerWin = () => {
+    const ball = randBall();
+    const selectedCardValue = selectedCard.slice(0, -1);
+    const selectedCardSuite = selectedCard.slice(-1);
+    if (ball.value === selectedCardValue || ball.suite === selectedCardSuite) {
+        alert(`The system rolled  ${ball.value}${ball.suite}!, You won!`);
+        balanceAmount.innerText = parseFloat(balanceAmount.innerText) + parseFloat(betInput.value);
+    } else {
+        alert(`The system rolled  ${ball.value}${ball.suite}!, You lost!`);
+        balanceAmount.innerText = parseFloat(balanceAmount.innerText) - parseFloat(betInput.value);
+    }
+}
 startBtn.addEventListener("click", () => { // LE STARTO BUTONNES, HOLA CHICO, VAVANOS!
     const bet = parseFloat(betInput.value);
     if (bet > 0) {
         betAmount.innerText = bet;
         if (cardSelected) {
             gameStarted = true;
-            randBall();
+            didPlayerWin();
         } else { alert("A card must be selected!") }
     } else { alert("Bet must be higher than 0!") }
 });
@@ -88,7 +84,7 @@ betInput.addEventListener("keydown", (e) => {
             betAmount.innerText = bet;
             if (cardSelected) {
                 gameStarted = true;
-                randBall();
+                didPlayerWin();
             } else { alert("A card must be selected!") }
         } else { alert("Bet must be higher than 0!") }
     }
