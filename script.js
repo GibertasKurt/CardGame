@@ -29,6 +29,7 @@ const suites = ['♠', '♣', '♥', '♦'];
 const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 const deck = []; // object array
 balanceAmount.innerText = "0"
+
 const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A CARD FROM HERE
     cards.innerHTML = ``;
     for(let i = 0;i < values.length*2;i++) {
@@ -51,6 +52,7 @@ const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A 
     });
 };
 orderedGen();
+
 const randBall = () => {
     const rand = Math.floor(Math.random() * deck.length);
     return deck[rand];
@@ -67,7 +69,8 @@ const didPlayerWin = () => {
         balanceAmount.innerText = parseFloat(balanceAmount.innerText) - parseFloat(betInput.value);
     }
 }
-startBtn.addEventListener("click", () => { // LE STARTO BUTONNES, HOLA CHICO, VAVANOS!
+
+startBtn.addEventListener("click", () => { // BUTTONS, HOLA CHICO, VAVANOS!
     const bet = parseFloat(betInput.value);
     if (bet > 0) {
         betAmount.innerText = bet;
