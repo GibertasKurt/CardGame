@@ -220,12 +220,20 @@ betInput.addEventListener("keydown", (e) => {
                     didPlayerWin();
                 } else { alert("A card must be selected!") }
             } else { alert("Bet must be higher than 0!") }
+        } else {
+        popupDialog.style.display = "block";
+        popupDialogText.innerText = "Game currently ongoing.";
         }
+    }
+})
+shuffleBtn.addEventListener("click", () => {
+    if (!gameStarted) {
+        orderedGen();
     } else {
         popupDialog.style.display = "block";
         popupDialogText.innerText = "Game currently ongoing.";
     }
-})
+});
 cards.addEventListener("click", (e) => { // A IS CARD IS CLICKED, IT IS RECORDED IN THE SYSTEM
     if (e.target.classList.contains("card")) {
         if (gameStarted) {
