@@ -38,7 +38,7 @@ const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A 
             suite: suites[orderSuite],
             value: values[orderValue]
         });
-        // cards.innerHTML += `<div class="card ${orderColor}">${values[orderValue]}${suites[orderSuite]}</div>`;
+        // cards.innerHTML += `<div class="card ${orderColor}">${values[orderValue]}${suites[orderSuite]}</div>`; // DEBUGGING
     }
     if (deck.length > 0) {
         const randomIndex = Math.floor(Math.random() * deck.length);
@@ -58,7 +58,7 @@ const randBall = () => {
         '&#9830;': '♦'
     };
     const suiteSymbol = suiteSymbols[deck[rand].suite];
-    // alert(`The ball has dropped and landed on a: ${deck[rand].value}${suiteSymbol}`);
+    // alert(`The ball has dropped and landed on a: ${deck[rand].value}${suiteSymbol}`); // DEBUGGING
     return deck[rand];
 };
 // const didPlayerWin = () => {
@@ -69,7 +69,7 @@ const randBall = () => {
 //         alert("Player loses!");
 //     }
 // }
-startBtn.addEventListener("click", () => { // LE STARTO BUTONNES, HOLA CHIKO, LET'S GO!
+startBtn.addEventListener("click", () => { // LE STARTO BUTONNES, HOLA CHICO, VAVANOS!
     const bet = parseFloat(betInput.value);
     if (bet > 0) {
         betAmount.innerText = bet;
