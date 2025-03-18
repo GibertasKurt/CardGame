@@ -21,19 +21,30 @@ const betAmount = document.getElementById("betamount");
 let balanceAmount = document.getElementById("balanceamount");
 const startBtn = document.getElementById("start");
 const shuffleBtn = document.getElementById("shuffle");
+var popupDialog = document.getElementById("popupDialog");
+var popupDialogclose = document.getElementsByClassName("close")[0];
+const popupDialogText = document.getElementById("popupDialog-text");
 let cardSelected = false;
 let gameStarted = false;
 let selectedCard;
-// const suites = ['&#9824;', '&#9827;', '&#9829;', '&#9830;'];
-const suites = ['♠', '♣', '♥', '♦'];
+const suites = ['♠', '♣', '♥', '♦']; // const suites = ['&#9824;', '&#9827;', '&#9829;', '&#9830;']; // all that hard work for nothing LUL
 const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-const deck = []; // object array
+const deck = [];
 balanceAmount.innerText = "0"
+  
+popupDialogclose.onclick = function() {
+    popupDialog.style.display = "none";
+}
 
+window.onclick = function(event) {
+    if (event.target == popupDialog) {
+        popupDialog.style.display = "none";
+    }
+}
 const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A CARD FROM HERE
     cards.innerHTML = ``;
     for(let i = 0;i < values.length*2;i++) {
-        const orderColor = i > 12 ? 'white' : 'red';
+        const orderColor = i > 12 ? 'black' : 'red';
         const orderSuite = i % suites.length;
         const orderValue = i % 13;
         deck.push({
@@ -53,50 +64,179 @@ const orderedGen = () => { // START UP, EVERYTHING IS ORDERED, PLAYER CHOOSES A 
 };
 orderedGen();
 
-const randBall = () => {
-    const rand = Math.floor(Math.random() * deck.length);
-    return deck[rand];
-};
-const didPlayerWin = () => {
-    const ball = randBall();
-    const selectedCardValue = selectedCard.slice(0, -1);
-    const selectedCardSuite = selectedCard.slice(-1);
-    if (ball.value === selectedCardValue || ball.suite === selectedCardSuite) {
-        alert(`The system rolled a ${ball.value}${ball.suite}! You won!`);
-        balanceAmount.innerText = parseFloat(balanceAmount.innerText) + parseFloat(betInput.value);
-    } else {
-        alert(`The system rolled a ${ball.value}${ball.suite}! You lost!`);
-        balanceAmount.innerText = parseFloat(balanceAmount.innerText) - parseFloat(betInput.value);
+const canvas = document.getElementById("DropBallCanvas");
+// canvas.id = "DropBallCanvas";
+document.body.appendChild(canvas);
+const ctx = canvas.getContext("2d");
+canvas.width = 500;
+canvas.height = 500;
+
+const grid5x5 = 5;
+const cellSize = canvas.width / grid5x5;
+
+function drawthegrid5x5grid(){
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+    for (let i = 0; i <= grid5x5; i++) {
+        ctx.beginPath();
+        ctx.moveTo(i * cellSize, 0);
+        ctx.lineTo(i * cellSize, canvas.height);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, i * cellSize);
+        ctx.lineTo(canvas.width, i * cellSize);
+        ctx.stroke();
+    }
+
+    ctx.font = "50px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    for (let row = 0; row < grid5x5; row++) {
+        for (let col = 0; col < grid5x5; col++) {
+            let card = deck[row * grid5x5 + col];
+            let x = col * cellSize + cellSize / 2;
+            let y = row * cellSize + cellSize / 2;
+
+            ctx.fillStyle = "white";
+            ctx.fillRect(col * cellSize + 1, row * cellSize + 1, cellSize - 2, cellSize - 2);
+
+            ctx.fillStyle = "black";
+            ctx.fillStyle = card.color;
+            ctx.fillText(`${card.value}${card.suite}`, x, y);
+        }
     }
 }
+function getdirection(min, max) {
+    return Math.random() * (max - min) + min;
+}
+let ball = {
+    x: canvas.width / 2,
+    y: canvas.height / 2,
+    radius: 15,
+    vx: getdirection(-5, 5),
+    vy: getdirection(-7, 7),
+    speedDecay: 0.995,
+    minSpeed: 0.05,
+    stopped: false
+};
+function resetBall() {
+    ball.x = canvas.width / 2;
+    ball.y = canvas.height / 2;
+    ball.vx = getdirection(-5, 5);
+    ball.vy = getdirection(-7, 7);
+    ball.stopped = false;
+};
+function drawBall() {
+    ctx.fillStyle = "red";
+    ctx.beginPath();
+    ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+    ctx.fill();
+};
+function updateBall() {
+    if (ball.stopped) return;
 
+    ball.x += ball.vx;
+    ball.y += ball.vy;
+
+    if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
+        ball.vx *= -getdirection(0.85, 0.95);
+        ball.vy *= getdirection(0.9, 1.1);
+    }
+
+    if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+        ball.vy *= -getdirection(0.85, 0.95);
+        ball.vx *= getdirection(0.9, 1.1);
+    }
+
+    ball.vx *= ball.speedDecay;
+    ball.vy *= ball.speedDecay;
+
+    if (Math.abs(ball.vx) < ball.minSpeed && Math.abs(ball.vy) < ball.minSpeed) {
+        ball.vx = 0;
+        ball.vy = 0;
+        ball.stopped = true;
+        console.log("Ball has stopped.");
+        checkWinCondition();
+    }
+}
+function checkWinCondition() {
+    let col = Math.floor(ball.x / cellSize);
+    let row = Math.floor(ball.y / cellSize);
+    let landedballCard = deck[row * grid5x5 + col];
+
+    console.log(`Ball landed on: ${landedballCard.value}${landedballCard.suite}`);
+
+    alert(`The ball landed on: ${landedballCard.value}${landedballCard.suite}`);
+    popupDialog.style.display = "block";
+    let bet = parseFloat(betAmount.innerText);
+    if (landedballCard.value === selectedCard[0] && landedballCard.suite === selectedCard[1]) {
+        popupDialogText.innerText = "You won! You have the exact same card as the winning card! Get 2x your money!";
+    } else if (landedballCard.value === selectedCard[0]) {
+        popupDialogText.innerText = "You won! You have the same card value! Get 1.5 your money!";
+    } else if (landedballCard.suite === selectedCard[1]) {
+        popupDialogText.innerText = "You won! You have the same card suite! We just give you back your own money";
+    } else {
+        popupDialogText.innerText = "You lose! Try again?";
+    }
+    gameStarted = false;
+}
+let lastTime = performance.now();
+function animate() {
+    let currentTime = performance.now();
+    let deltaTime = currentTime - lastTime;
+    lastTime = currentTime;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawthegrid5x5grid();
+    updateBall(deltaTime);
+    drawBall();
+    requestAnimationFrame(animate);
+}
 startBtn.addEventListener("click", () => { // BUTTONS, HOLA CHICO, VAVANOS!
     const bet = parseFloat(betInput.value);
-    if (bet > 0) {
-        betAmount.innerText = bet;
-        if (cardSelected) {
-            gameStarted = true;
-            didPlayerWin();
-        } else { alert("A card must be selected!") }
-    } else { alert("Bet must be higher than 0!") }
-});
-betInput.addEventListener("keydown", (e) => {
-    const bet = parseFloat(betInput.value);
-    if (e.key === "Enter") {
+    if (!gameStarted) {
         if (bet > 0) {
             betAmount.innerText = bet;
             if (cardSelected) {
                 gameStarted = true;
-                didPlayerWin();
+                resetBall();
+                animate();
             } else { alert("A card must be selected!") }
         } else { alert("Bet must be higher than 0!") }
+    } else {
+        popupDialog.style.display = "block";
+        popupDialogText.innerText = "Game currently ongoing.";
     }
-  })
-cards.addEventListener("click", () => { // A IS CARD IS CLICKED, IT IS RECORDED IN THE SYSTEM
-    if (event.target.classList.contains("card")){
+});
+betInput.addEventListener("keydown", (e) => {
+    const bet = parseFloat(betInput.value);
+    if (e.key === "Enter") {
+        if (!gameStarted) {
+            if (bet > 0) {
+                betAmount.innerText = bet;
+                if (cardSelected) {
+                    gameStarted = true;
+                    didPlayerWin();
+                } else { alert("A card must be selected!") }
+            } else { alert("Bet must be higher than 0!") }
+        }
+    } else {
+        popupDialog.style.display = "block";
+        popupDialogText.innerText = "Game currently ongoing.";
+    }
+})
+cards.addEventListener("click", (e) => { // A IS CARD IS CLICKED, IT IS RECORDED IN THE SYSTEM
+    if (e.target.classList.contains("card")) {
+        if (gameStarted) {
+            popupDialog.style.display = "block";
+            popupDialogText.innerText = "NO CHEATING! >:3c";
+            return;
+        }
         cardSelected = true;
-        selectedCard = event.target.innerText;
+        selectedCard = e.target.innerText;
         betCard.innerText = `${selectedCard}`;
-        selectedCard = deck.find(card => `${card.value}${card.suite}` === cardText);
+        console.log(`Selected card: ${selectedCard}`);
+        selectedCard = deck.find(card => `${card.value}${card.suite}` === selectedCard);
     }
 });
