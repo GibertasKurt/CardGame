@@ -72,10 +72,13 @@ button {
     transform: scale(1.25);
 }
 #cards {
-    margin: 135px;
+    float:right;
+    margin: 150px;
     display: grid;
-    gap: 45px 50px;
-    grid-template-columns: repeat(auto-fill, 70px);
+    gap: 25px 50px;
+    /* grid-template-columns: repeat(auto-fill, 70px); */
+    grid-template-columns: repeat(5, 50px); /* Creates 5 equal columns */
+    grid-template-rows: repeat(5, 100px);
     /* flex-wrap: wrap; */
     /* justify-content: center; */
 }
