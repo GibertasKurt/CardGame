@@ -6,8 +6,9 @@ body {
     text-align: center;
 }
 canvas {
-    margin-left: 120px;
-    margin-bottom: 70px;
+    margin-left: 90px;
+    margin-top: 50px;
+    margin-bottom: 135px;
 }
 .menu {
     border: solid 3px #913f00;
@@ -16,7 +17,7 @@ canvas {
     display: inline-grid;
     padding: 10px;
     border-radius: 15px;
-    margin-top: 30%;
+    margin-top: 38%;
 }
 .menu input {
     padding: 10px;
@@ -90,8 +91,8 @@ button {
     gap: 25px 50px;
     grid-template-columns: repeat(5, 50px); /* Creates 5 equal columns */
     grid-template-rows: repeat(5, 100px);
-    margin-top: 10px;
-    margin-left: 14px;
+    margin-top: 50px;
+    margin-left: 120px;
 }
 .card {
     width: 90px;

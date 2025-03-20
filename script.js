@@ -13,6 +13,7 @@
         9. Player loses
     8.2. IF ANY property matches the chosen card
        9. Player wins
+
 */
 const cards = document.getElementById("cards");
 const betInput = document.getElementById("betinput");
@@ -29,6 +30,9 @@ let selectedCard = [];
 const suites = ['♠', '♣', '♥', '♦']; // const suites = ['&#9824;', '&#9827;', '&#9829;', '&#9830;']; // all that hard work for nothing LUL
 const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 const deck = [];
+let balanceAmount = document.getElementById("balanceamount");
+betAmount.innerText = "0"
+balanceAmount.innerText = "0"
   
 popupDialogclose.onclick = function() {
     popupDialog.style.display = "none";
@@ -166,17 +170,24 @@ function checkWinCondition() {
 
     console.log(`Ball landed on: ${landedballCard.value}${landedballCard.suite}`);
 
+    let bet = parseFloat(betInput.value);
+
     // alert(`The ball landed on: ${landedballCard.value}${landedballCard.suite}`);
     popupDialog.style.display = "block";
     if (landedballCard.value === selectedCard[0] && landedballCard.suite === selectedCard[1]) {
         popupDialogText.innerText = `It landed on ${landedballCard.value}${landedballCard.suite}! You won! You have the exact same card as the winning card! Get 2x your money!`;
+        balanceAmount.innerText = parseFloat(balanceAmount.innerText) + bet * 2;
     } else if (landedballCard.value === selectedCard[0]) {
         popupDialogText.innerText = `It landed on ${landedballCard.value}${landedballCard.suite}! You won! You have the same card value! Get 1.5 your money!`;
+        balanceAmount.innerText = parseFloat(balanceAmount.innerText) + bet * 1.5;
     } else if (landedballCard.suite === selectedCard[1]) {
-        popupDialogText.innerText = `It landed on ${landedballCard.value}${landedballCard.suite}! You won! You have the same card suite! We just give you back your own money`;
+        popupDialogText.innerText = `It landed on ${landedballCard.value}${landedballCard.suite}! You won! You have the same card suite! Get 1.2 your money!`;  
+        balanceAmount.innerText = parseFloat(balanceAmount.innerText) + bet * 1.2;
     } else {
-        popupDialogText.innerText = "You lose! Try again?";
+        popupDialogText.innerText = `It landed on ${landedballCard.value}${landedballCard.suite}! You lose! Try again`;
+        balanceAmount.innerText = parseFloat(balanceAmount.innerText) - bet;
     }
+    betInput.disabled = false;
     gameStarted = false;
 }
 let lastTime = performance.now();
@@ -192,8 +203,7 @@ function animate() {
     requestAnimationFrame(animate);
 }
 startBtn.addEventListener("click", () => { // BUTTONS, HOLA CHICO, VAVANOS!
-    const bet = parseFloat(betInput.value);
-
+    let bet = parseFloat(betInput.value);
     if (isNaN(bet)) {
         alert("Bet must be a number!")
         return
@@ -214,15 +224,15 @@ startBtn.addEventListener("click", () => { // BUTTONS, HOLA CHICO, VAVANOS!
         alert("A card must be selected!") 
         return
         
-    } 
+    }
+    betInput.disabled = true; 
     gameStarted = true;
     resetBall();
     animate();
 });
 betInput.addEventListener("keydown", (e) => {
-    const bet = parseFloat(betInput.value);
     if (e.key === "Enter") {
-        const bet = parseFloat(betInput.value);
+        let bet = parseFloat(betInput.value);
     
         if (isNaN(bet)) {
             alert("Bet must be a number!")
@@ -245,6 +255,7 @@ betInput.addEventListener("keydown", (e) => {
             return
             
         } 
+        betInput.disabled = true;
         gameStarted = true;
         resetBall();
         animate();
